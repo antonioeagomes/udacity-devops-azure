@@ -1,8 +1,8 @@
 {
-    "tagName": {
-      "value": "env"
-    },
-    "tagValue": {
-      "value": "prod"
-    }
-  }  
+  "tagName": {
+    "value": "env"
+  },
+  "tagValue": {
+    "value": "prod"
+  }
+}
