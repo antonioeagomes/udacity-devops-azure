@@ -38,7 +38,8 @@ variable "subnet_address_prefix" {
 
 variable "vm_count" {
   description = "Number of virtual machines to create"
-  type = number  
+  type = number
+  default = 2  
 }
 
 variable "vm_size" {
