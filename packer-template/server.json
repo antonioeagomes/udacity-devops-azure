@@ -31,14 +31,20 @@
             }
         }
     ],
-    "provisioners": [
-        {
-            "inline": [
-                "echo 'Hello, World!' > index.html",
-                "nohup busybox httpd -f -p 80 &"
-            ],
-            "inline_shebang": "/bin/sh -x",
-            "type": "shell"
-        }
-    ]
+    "provisioners": [{
+    "inline": [
+        "apt-get update",
+        "apt-get install -y busybox",
+        "mkdir -p /var/www/html",
+        "chown www-data:www-data /var/www/html",
+        "echo 'Hello, World!' > /var/www/html/index.html",
+        "nohup busybox httpd -f -p 80 -h /var/www/html &",
+        "echo '[Unit]\\nDescription=Busybox HTTP Server\\nAfter=network.target\\n[Service]\\nExecStart=/usr/bin/busybox httpd -f -p 80 -h /var/www/html\\nRestart=always\\n[Install]\\nWantedBy=multi-user.target' > /etc/systemd/system/busybox-httpd.service",
+        "systemctl daemon-reload",
+        "systemctl enable busybox-httpd.service",
+        "systemctl start busybox-httpd.service"
+    ],
+    "type": "shell",
+    "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} {{ .Path }}"
+}]
 }
